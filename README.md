@@ -1,5 +1,5 @@
 # projekt_informatyka_bz_2022
- //Piłka odbijająca się od ruchomego podłoża przesuwanego przez użytkownika. Piłka trafia w obiekty umieszczone w określonym miejscu scenerii.
+ //Pilka odbijajaca sie od ruchomego podloza przesuwanego przez uzytkownika. Pilka trafia w obiekty umieszczone w okreslonym miejscu scenerii.
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <SFML/Window.hpp>
