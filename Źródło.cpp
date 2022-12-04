@@ -19,27 +19,23 @@ typedef struct {
 void players_to_file()
 {
 	srand(time(NULL));
-	gracz_cechy playerschar[10];
+	gracz_cechy playerschar[6];
 
 	FILE* fp;
 	fp = fopen("gracze.dat", "w+b");
 
-	strcpy(playerschar[0].nazwa, "Johny");
-	strcpy(playerschar[1].nazwa, "Bathman");
-	strcpy(playerschar[2].nazwa, "Dedman");
-	strcpy(playerschar[3].nazwa, "Bethymanamm");
-	strcpy(playerschar[4].nazwa, "Alloy_jr");
-	strcpy(playerschar[5].nazwa, "Poul");
-	strcpy(playerschar[6].nazwa, "Snake");
-	strcpy(playerschar[7].nazwa, "BK");
-	strcpy(playerschar[8].nazwa, "Pascal");
-	strcpy(playerschar[9].nazwa, "Java");
-
+	strcpy(playerschar[0].nazwa, "Bartek");
+	strcpy(playerschar[1].nazwa, "Detek");
+	strcpy(playerschar[2].nazwa, "Andrzej");
+	strcpy(playerschar[3].nazwa, "Kuropatwa");
+	strcpy(playerschar[4].nazwa, "Alley_Boss");
+	strcpy(playerschar[5].nazwa, "Kiroto");
+	
 	time_t rawtime;
 
 	time(&rawtime);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 6; i++)
 		playerschar[i].liczb_pkt = rand() % 2000;
 	strcpy(playerschar[0].data, ctime(&rawtime));
 	strcpy(playerschar[1].data, ctime(&rawtime));
@@ -47,11 +43,7 @@ void players_to_file()
 	strcpy(playerschar[3].data, ctime(&rawtime));
 	strcpy(playerschar[4].data, ctime(&rawtime));
 	strcpy(playerschar[5].data, ctime(&rawtime));
-	strcpy(playerschar[6].data, ctime(&rawtime));
-	strcpy(playerschar[7].data, ctime(&rawtime));
-	strcpy(playerschar[8].data, ctime(&rawtime));
-	strcpy(playerschar[9].data, ctime(&rawtime));
-	fwrite(playerschar, sizeof(gracz_cechy), 10, fp);
+	fwrite(playerschar, sizeof(gracz_cechy), 6, fp);
 	fclose(fp);
 }
 
@@ -71,8 +63,8 @@ int porownaj(const void* left, const void* right) {
 
 class players_list {
 private:
-	sf::Text* players;//dane tekstowe do wyswietlenia
-	gracz_cechy* player_char;//rzeczywista specyfikacja graczy
+	sf::Text* players;
+	gracz_cechy* player_char;
 	sf::Font czcionka;
 	int Np;
 public:
@@ -83,6 +75,42 @@ public:
 	void draw(sf::RenderWindow& window);
 };
 
+players_list::players_list(int N)
+{
+
+	if (!czcionka.loadFromFile("arial.ttf"))
+		return;
+
+	FILE* fp = fopen("gracze.dat", "r+b");
+	unsigned int rozmiar_plik = 0, ile_graczy = 0;
+	fseek(fp, 0, SEEK_END);
+	rozmiar_plik = ftell(fp);
+	ile_graczy = rozmiar_plik / sizeof(gracz_cechy);
+	if (N > ile_graczy)
+	{
+		Np = 5;
+	}
+	else
+	{
+		Np = N;
+	}
+
+	players = new sf::Text[Np];
+	player_char = new gracz_cechy[Np];
+
+	rewind(fp);
+	fread(player_char, sizeof(gracz_cechy), Np, fp);
+	fclose(fp);
+
+	for (int i = 0; i < Np; i++)
+	{
+		players[i].setFont(czcionka);
+		players[i].setCharacterSize(30);
+		players[i].setFillColor(sf::Color::Red);
+		players[i].setPosition(10 + 800 / 4, 20 + i * 50);
+
+	}
+}
 
 void players_list::laduj()
 {
@@ -172,7 +200,7 @@ void Pilka::animuj()
 int main()
 {
 
-	sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML animation");
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML animation");
 	/*sf::Event event;
 
 	sf::Texture tekstura;
@@ -198,19 +226,19 @@ int main()
 		}
 	}
 	*/
-	players_to_file();//potrzebne tylko raz!
+	//players_to_file();
 
 	players_list* pl = new players_list(8);
 	pl->sortuj();
 	pl->laduj();
-	// petla wieczna - dopoki okno jest otwarte
+	
 	while (window.isOpen())
 	{
-		// w kazdej iteracji petli sprawdzaj zdarzenia
+	
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			// jezeli odebrano zdarzenie "Closed" zamknij okno
+			
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
