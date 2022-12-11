@@ -9,7 +9,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
-
+/*
 typedef struct {
 	char nazwa[20];
 	int liczb_pkt;
@@ -143,8 +143,8 @@ void players_list::draw(sf::RenderWindow& window)
 	{
 		window.draw(players[i]);
 	}
-}
-/*class Pilka
+}*/ 
+class Pilka
 {
 private:
 	sf::Vector2f position;
@@ -171,6 +171,8 @@ public:
 	void sprawdzKolizjeSciany();
 	void animuj();
 };
+
+
 void Pilka::przesun(float x_in, float y_in)
 {
 	sf::Vector2f pos;
@@ -196,12 +198,28 @@ void Pilka::animuj()
 	przesun(xVel, yVel);
 }
 
-*/
+class podloga 
+{
+private:
+	sf::Vector2f position;
+	float xVel = 1, yVel = 1.7;
+	sf::Texture tekstura;
+	sf::Sprite pSprite;
+	
+public:
+	podloga(float x_in, float y_in)
+	{
+		position.x = x_in;
+		position.y = y_in;
+		
+	}
+};
+
 int main()
 {
 
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML animation");
-	/*sf::Event event;
+	sf::Event event;
 
 	sf::Texture tekstura;
 	tekstura.loadFromFile("pilka.png");
@@ -225,10 +243,10 @@ int main()
 			zegar.restart();
 		}
 	}
-	*/
+	
 	//players_to_file();
 
-	players_list* pl = new players_list(8);
+	/*players_list* pl = new players_list(8);
 	pl->sortuj();
 	pl->laduj();
 	
@@ -247,6 +265,6 @@ int main()
 		pl->draw(window);
 
 		window.display();
-	}
+	}*/
 	return 0;
 }
