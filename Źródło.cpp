@@ -10,7 +10,7 @@
 #include <ctime>
 #include <cstdlib>
 /*
-typedef struct {
+typedef struct {                                                              Lista graczy
 	char nazwa[20];
 	int liczb_pkt;
 	char data[40];
@@ -144,7 +144,82 @@ void players_list::draw(sf::RenderWindow& window)
 		window.draw(players[i]);
 	}
 }*/ 
-class Pilka
+class interfejs
+{
+public:
+	interfejs(sf::Vector2f position);
+	~interfejs();
+	void draw(sf::RenderWindow& win);
+	void setText(sf::Text* text1, sf::Text* text2, sf::Text* text3);
+protected:
+	sf::RectangleShape* int_1;
+	sf::Font* font;
+	sf::Text* text1;
+	sf::Text* text2;
+	sf::Text* text3;
+	sf::Vector2f position;
+	void init(sf::Vector2f widht_height);
+};
+
+interfejs::interfejs(sf::Vector2f position)
+{
+	this->position.x = position.x;
+	this->position.y = position.y;
+	sf::Vector2f width_height(756.f, 500);
+	init(width_height);
+}
+
+interfejs::~interfejs()
+{
+	delete int_1;
+	int_1 = NULL;
+}
+
+void interfejs::init(sf::Vector2f width_height)
+{
+	int_1 = new sf::RectangleShape;
+	font = new sf::Font;
+	text1 = new sf::Text;
+	text2 = new sf::Text;
+	text3 = new sf::Text;
+	font->loadFromFile("arial.ttf");
+	text1->setFont(*font);
+	text2->setFont(*font); 
+	text3->setFont(*font); 
+
+	int_1->setPosition(22.f, 55.f);
+	int_1->setSize(width_height);
+	int_1->setFillColor(sf::Color(0, 0, 255));
+	setText(text1, text2, text3);
+
+}
+void interfejs::draw(sf::RenderWindow& win)
+{
+	win.draw(*int_1);
+	win.draw(*text1);
+	win.draw(*text2);
+	win.draw(*text3);
+
+}
+void interfejs::setText(sf::Text* text1, sf::Text* text2, sf::Text* text3)
+{
+	text1->setString("Left top");
+	text2->setString("Right top");
+	text3->setString("Center bottom");
+	text1->setCharacterSize(24);
+	text2->setCharacterSize(24);
+	text3->setCharacterSize(24);
+	text1->setFillColor(sf::Color(135, 206, 255));
+	text2->setFillColor(sf::Color(240, 248, 255));
+	text3->setFillColor(sf::Color(234, 221, 202));
+	text1->setPosition(50.f, 80.f);
+	text2->setPosition(650.f, 10.f);
+	text3->setPosition(300.f, 500.f);
+}
+
+
+/*
+class Pilka                                                           Pi³ka odbijaj¹ca siê
 {
 private:
 	sf::Vector2f position;
@@ -197,8 +272,11 @@ void Pilka::animuj()
 	sprawdzKolizjeSciany();
 	przesun(xVel, yVel);
 }
+*/
 
-class podloga 
+
+/*                                                      pod³oga
+class podloga						
 {
 private:
 	sf::Vector2f position;
@@ -214,37 +292,55 @@ public:
 		
 	}
 };
+*/
+ 
 
+/*																							pilka
 int main()
 {
-
+					
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML animation");
-	sf::Event event;
-
+	sf::View view = window.getDefaultView();
+	sf::Vector2f rozmiarI((window.getSize().x - 50), (window.getSize().y - 50));
+	interfejs inter(rozmiarI);
 	sf::Texture tekstura;
-	tekstura.loadFromFile("pilka.png");
+	tekstura.loadFromFile("pilka.png");												
 	sf::Sprite pokeball(tekstura);
-	Pilka pb(40, 10, 1000, 1000);
-	sf::Clock zegar;
+	Pilka pb(40, 10, 1000, 1000);													
+	sf::Clock zegar; 
 
 	while (window.isOpen())
 	{
-
+		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if (event.type == sf::Event::Resized)
+			{
+				view.setSize({
+					static_cast<float>(event.size.width),
+					static_cast<float>(event.size.height)
+					});
+
+				window.setView(view);
+			}
 		}
-		window.clear(sf::Color::Green);
-		window.draw(pb.getPilka());
+		window.clear();
+		inter.drawObiekty(window);
+	}
+		window.clear(sf::Color::Green);												
+		window.draw(pb.getPilka());																
 		window.display();
 		if (zegar.getElapsedTime().asMilliseconds() > 5.0f) {
-			pb.animuj();
+			pb.animuj();																
 			zegar.restart();
 		}
-	}
+		
+	} */
 	
-	//players_to_file();
+	//players_to_file();                                                          Lista graczy
 
 	/*players_list* pl = new players_list(8);
 	pl->sortuj();
@@ -266,5 +362,24 @@ int main()
 
 		window.display();
 	}*/
+
+int main() {
+	interfejs one(sf::Vector2f(800.f, 600.f));
+	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();			
+		}
+
+		window.clear();
+		one.draw(window);
+
+		window.display();
+	}
 	return 0;
 }
