@@ -1,0 +1,1 @@
+#include "paletka.h"
