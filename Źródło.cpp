@@ -189,7 +189,7 @@ void interfejs::init(sf::Vector2f width_height)
 
 	int_1->setPosition(22.f, 55.f);
 	int_1->setSize(width_height);
-	int_1->setFillColor(sf::Color(0, 0, 255));
+	int_1->setFillColor(sf::Color(0, 255, 255));
 	setText(text1, text2, text3);
 
 }
@@ -203,23 +203,23 @@ void interfejs::draw(sf::RenderWindow& win)
 }
 void interfejs::setText(sf::Text* text1, sf::Text* text2, sf::Text* text3)
 {
-	text1->setString("Left top");
-	text2->setString("Right top");
-	text3->setString("Center bottom");
+	text1->setString("zycie");
+	text2->setString("Punkty :");
+	text3->setString("Kliknij r by zrestartowac");
 	text1->setCharacterSize(24);
 	text2->setCharacterSize(24);
 	text3->setCharacterSize(24);
 	text1->setFillColor(sf::Color(135, 206, 255));
 	text2->setFillColor(sf::Color(240, 248, 255));
 	text3->setFillColor(sf::Color(234, 221, 202));
-	text1->setPosition(50.f, 80.f);
+	text1->setPosition(50.f, 10.f);
 	text2->setPosition(650.f, 10.f);
-	text3->setPosition(300.f, 500.f);
+	text3->setPosition(280.f, 560.f);
 }
 
 
-/*
-class Pilka                                                           Pi³ka odbijaj¹ca siê
+
+class Pilka                                                           /*Pi³ka odbijaj¹ca siê*/
 {
 private:
 	sf::Vector2f position;
@@ -272,7 +272,7 @@ void Pilka::animuj()
 	sprawdzKolizjeSciany();
 	przesun(xVel, yVel);
 }
-*/
+
 
 
 /*                                                      pod³oga
@@ -333,12 +333,13 @@ int main()
 		window.clear(sf::Color::Green);												
 		window.draw(pb.getPilka());																
 		window.display();
-		if (zegar.getElapsedTime().asMilliseconds() > 5.0f) {
+		if (zegar.getElapsedTime().asMilliseconds() > 5.0f) 
+		{
 			pb.animuj();																
 			zegar.restart();
 		}
 		
-	} */
+	} 
 	
 	//players_to_file();                                                          Lista graczy
 
@@ -367,6 +368,15 @@ int main() {
 	interfejs one(sf::Vector2f(800.f, 600.f));
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
+	sf::View view = window.getDefaultView();
+	sf::Vector2f rozmiarI((window.getSize().x - 100), (window.getSize().y - 50));
+	interfejs inter(rozmiarI);
+	sf::Texture tekstura;
+	tekstura.loadFromFile("pilka.png");
+	sf::Sprite pokeball(tekstura);
+	Pilka pb(40, 10, 800, 800);
+	sf::Clock zegar;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -375,11 +385,27 @@ int main() {
 			if (event.type == sf::Event::Closed)
 				window.close();			
 		}
+		if (event.type == sf::Event::Resized)
+		{
+			view.setSize({
+				static_cast<float>(event.size.width),
+				static_cast<float>(event.size.height)
+				});
+
+			window.setView(view);
+		}
 
 		window.clear();
 		one.draw(window);
-
+		window.draw(pb.getPilka());
 		window.display();
+		if (zegar.getElapsedTime().asMilliseconds() > 5.0f)
+		{
+			pb.animuj();
+			zegar.restart();
+		}
+		/*window.display();*/
 	}
 	return 0;
 }
+
