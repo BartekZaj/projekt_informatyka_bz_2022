@@ -9,6 +9,9 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <locale.h>
+#include "menu.h"
+
 /*
 typedef struct {                                                              Lista graczy
 	char nazwa[20];
@@ -365,8 +368,12 @@ int main()
 	}*/
 
 int main() {
+
+	setlocale(LC_CTYPE, "Polish");
+
+	menu menu;
 	interfejs one(sf::Vector2f(800.f, 600.f));
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML works!");
 
 	sf::View view = window.getDefaultView();
 	sf::Vector2f rozmiarI((window.getSize().x - 100), (window.getSize().y - 50));
@@ -394,8 +401,10 @@ int main() {
 
 			window.setView(view);
 		}
-
 		window.clear();
+		menu.wyswietl(window);
+		window.display();
+		/*window.clear();
 		one.draw(window);
 		window.draw(pb.getPilka());
 		window.display();
@@ -403,7 +412,9 @@ int main() {
 		{
 			pb.animuj();
 			zegar.restart();
-		}
+		} 
+		*/
+
 		/*window.display();*/
 	}
 	return 0;
