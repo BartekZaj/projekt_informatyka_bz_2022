@@ -404,7 +404,8 @@ int main() {
 		window.clear();
 		menu.wyswietl(window);
 		window.display();
-		/*window.clear();
+		/*
+		window.clear();
 		one.draw(window);
 		window.draw(pb.getPilka());
 		window.display();
@@ -419,4 +420,5 @@ int main() {
 	}
 	return 0;
 }
+
 
