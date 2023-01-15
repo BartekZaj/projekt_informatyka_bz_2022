@@ -11,6 +11,10 @@
 #include <cstdlib>
 #include <locale.h>
 #include "menu.h"
+#include "paletka.h"
+#include "zapytanie.h"
+#include "opcje.h"
+
 
 /*
 typedef struct {                                                              Lista graczy
@@ -33,7 +37,7 @@ void players_to_file()
 	strcpy(playerschar[3].nazwa, "Kuropatwa");
 	strcpy(playerschar[4].nazwa, "Alley_Boss");
 	strcpy(playerschar[5].nazwa, "Kiroto");
-	
+
 	time_t rawtime;
 
 	time(&rawtime);
@@ -146,7 +150,7 @@ void players_list::draw(sf::RenderWindow& window)
 	{
 		window.draw(players[i]);
 	}
-}*/ 
+}*/
 class interfejs
 {
 public:
@@ -187,8 +191,8 @@ void interfejs::init(sf::Vector2f width_height)
 	text3 = new sf::Text;
 	font->loadFromFile("arial.ttf");
 	text1->setFont(*font);
-	text2->setFont(*font); 
-	text3->setFont(*font); 
+	text2->setFont(*font);
+	text3->setFont(*font);
 
 	int_1->setPosition(22.f, 55.f);
 	int_1->setSize(width_height);
@@ -279,38 +283,38 @@ void Pilka::animuj()
 
 
 /*                                                      pod³oga
-class podloga						
+class podloga
 {
 private:
 	sf::Vector2f position;
 	float xVel = 1, yVel = 1.7;
 	sf::Texture tekstura;
 	sf::Sprite pSprite;
-	
+
 public:
 	podloga(float x_in, float y_in)
 	{
 		position.x = x_in;
 		position.y = y_in;
-		
+
 	}
 };
 */
- 
+
 
 /*																							pilka
 int main()
 {
-					
+
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML animation");
 	sf::View view = window.getDefaultView();
 	sf::Vector2f rozmiarI((window.getSize().x - 50), (window.getSize().y - 50));
 	interfejs inter(rozmiarI);
 	sf::Texture tekstura;
-	tekstura.loadFromFile("pilka.png");												
+	tekstura.loadFromFile("pilka.png");
 	sf::Sprite pokeball(tekstura);
-	Pilka pb(40, 10, 1000, 1000);													
-	sf::Clock zegar; 
+	Pilka pb(40, 10, 1000, 1000);
+	sf::Clock zegar;
 
 	while (window.isOpen())
 	{
@@ -333,30 +337,30 @@ int main()
 		window.clear();
 		inter.drawObiekty(window);
 	}
-		window.clear(sf::Color::Green);												
-		window.draw(pb.getPilka());																
+		window.clear(sf::Color::Green);
+		window.draw(pb.getPilka());
 		window.display();
-		if (zegar.getElapsedTime().asMilliseconds() > 5.0f) 
+		if (zegar.getElapsedTime().asMilliseconds() > 5.0f)
 		{
-			pb.animuj();																
+			pb.animuj();
 			zegar.restart();
 		}
-		
-	} 
-	
+
+	}
+
 	//players_to_file();                                                          Lista graczy
 
 	/*players_list* pl = new players_list(8);
 	pl->sortuj();
 	pl->laduj();
-	
+
 	while (window.isOpen())
 	{
-	
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			
+
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
@@ -367,43 +371,189 @@ int main()
 		window.display();
 	}*/
 
-int main() {
-
+int main() 
+{
 	setlocale(LC_CTYPE, "Polish");
+a:
+	sf::RenderWindow Gra(sf::VideoMode(1200, 800), "Gra");
+	sf::RenderWindow Menu(sf::VideoMode(1200, 800), "Menu");
 
-	menu menu;
-	interfejs one(sf::Vector2f(800.f, 600.f));
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML works!");
-
-	sf::View view = window.getDefaultView();
-	sf::Vector2f rozmiarI((window.getSize().x - 100), (window.getSize().y - 50));
-	interfejs inter(rozmiarI);
+	//sf::View view = window.getDefaultView();
+	//sf::Vector2f rozmiarI((window.getSize().x - 100), (window.getSize().y - 50));
+	menu menu(1200, 800);
+	zapytanie zapytanie(600, 400);
+	opcje opcje(1200, 800);
+	//interfejs one(sf::Vector2f(800.f, 600.f));
+	//interfejs inter(rozmiarI);
 	sf::Texture tekstura;
 	tekstura.loadFromFile("pilka.png");
 	sf::Sprite pokeball(tekstura);
 	Pilka pb(40, 10, 800, 800);
 	sf::Clock zegar;
-
-	while (window.isOpen())
+	while (Menu.isOpen())
 	{
 		sf::Event event;
-		while (window.pollEvent(event))
+		while (Menu.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
-				window.close();			
-		}
-		if (event.type == sf::Event::Resized)
-		{
-			view.setSize({
-				static_cast<float>(event.size.width),
-				static_cast<float>(event.size.height)
-				});
+				Menu.close();
+		
+			/*if (event.type == sf::Event::Resized)
+			{
+				view.setSize(
+					{
+					static_cast<float>(event.size.width),
+					static_cast<float>(event.size.height)
+					});
 
-			window.setView(view);
+				window.setView(view);
+			}*/ 		
+				
+			switch (event.type)
+			{	
+				case sf::Event::KeyReleased:
+					switch (event.key.code)
+					{
+						case sf::Keyboard::Up:
+							menu.wyzej();
+							break;
+						case sf::Keyboard::Down:
+							menu.nizej();
+							break;
+						case sf::Keyboard::Return:
+						switch (menu.klik())
+						{
+							case 0:
+								Menu.close();
+								while (Gra.isOpen())
+								{
+									sf::Event eventgra;
+									while (Gra.pollEvent(eventgra))
+									{
+										if (eventgra.type == sf::Event::Closed)
+											Gra.close();
+
+										if (eventgra.type == sf::Event::KeyPressed && eventgra.key.code==sf::Keyboard::Escape)
+										{
+											sf::RenderWindow Zapytanie(sf::VideoMode(600, 400), "Zapytanie");
+											zapytanie.wyswietlzap(Zapytanie);
+												while (Zapytanie.isOpen())
+												{
+													sf::Event eventzap;
+													while (Zapytanie.pollEvent(eventzap))
+													{
+														if (eventzap.type == sf::Event::Closed)
+															Zapytanie.close();
+
+														switch (eventzap.type)
+														{
+															case sf::Event::KeyReleased:
+																switch (eventzap.key.code)
+																{
+																	case sf::Keyboard::Left:
+																		zapytanie.lewozap();
+																		break;
+																	case sf::Keyboard::Right:
+																		zapytanie.prawozap();
+																		break;
+																	case sf::Keyboard::Return:
+																		
+																		switch (zapytanie.klikzap())
+																		{
+																		case 0:
+																			Zapytanie.close();
+																			Gra.close();
+																			goto a;
+																			break;
+																		case 1:
+																			Zapytanie.close();
+																			zapytanie.lewozap();
+																			break;
+																		}
+																	
+																}
+														}
+
+													}
+													Zapytanie.clear();
+													zapytanie.wyswietlzap(Zapytanie);
+													Zapytanie.display();
+
+												}
+											
+
+										}
+
+										/*
+										Gra.clear();
+										one.draw(window);
+										window.draw(pb.getPilka());
+										window.display();
+										if (zegar.getElapsedTime().asMilliseconds() > 5.0f)
+										{
+											pb.animuj();
+											zegar.restart();
+										}*/
+									}
+								}
+								break;
+							case 1:
+								break;
+
+							case 2:
+								
+								Menu.clear();
+								while (Menu.isOpen())
+								{
+									sf::Event eventopcje;
+									while (Menu.pollEvent(eventopcje))
+									{
+										if (eventopcje.type == sf::Event::Closed)
+											Menu.close();
+
+										if (eventopcje.type == sf::Event::KeyPressed && eventopcje.key.code == sf::Keyboard::Escape)
+										{									
+											goto a;
+										}
+
+										switch (eventopcje.type)
+										{
+										case sf::Event::KeyReleased:
+											switch (eventopcje.key.code)
+											{
+											case sf::Keyboard::Up:
+												opcje.goraop();
+												break;
+											case sf::Keyboard::Down:
+												opcje.dolop();
+												break;
+											
+											case sf::Keyboard::Left:
+												opcje.lewoop();
+												break;
+											case sf::Keyboard::Right:
+												opcje.prawoop();
+												break;
+											}
+										}
+
+									}
+									Menu.clear();
+									opcje.wyswietlopcje(Menu);
+									Menu.display();
+								
+								}
+							case 4:
+								Menu.close();
+								break;
+
+						}						
+					}
+			}
 		}
-		window.clear();
-		menu.wyswietl(window);
-		window.display();
+		Menu.clear();
+		menu.wyswietlmenu(Menu);
+		Menu.display();
 		/*
 		window.clear();
 		one.draw(window);
@@ -413,12 +563,11 @@ int main() {
 		{
 			pb.animuj();
 			zegar.restart();
-		} 
+		}
 		*/
 
 		/*window.display();*/
 	}
 	return 0;
 }
-
 

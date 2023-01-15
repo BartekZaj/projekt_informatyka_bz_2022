@@ -2,7 +2,7 @@
 #include <locale.h>
 
 
-menu::menu()
+menu::menu(float width, float height)
 {
 	setlocale(LC_CTYPE, "Polish");
 	
@@ -21,7 +21,7 @@ menu::menu()
 	pozycjaM[0].setString("Zacznij Gre");
 	guzik0.setPosition(470, 200);
 	guzik0.setFillColor(sf::Color(0, 255, 255));
-	guzik0.setSize(sf::Vector2f (280, 70));
+	guzik0.setSize(sf::Vector2f (300, 90));
 	guziktlo0.setPosition(470, 200);
 	guziktlo0.setFillColor(sf::Color(66, 120, 205));
 	guziktlo0.setSize(sf::Vector2f(300, 90));
@@ -73,9 +73,11 @@ menu::menu()
 	guziktlo4.setPosition(470, 600);
 	guziktlo4.setFillColor(sf::Color(66, 120, 205));
 	guziktlo4.setSize(sf::Vector2f(300, 90));
+
+	wybor = 0;
 }
 
-void menu::wyswietl(sf::RenderWindow & window)
+void menu::wyswietlmenu(sf::RenderWindow & window)
 {
 	window.draw(guziktlo0);
 	window.draw(guziktlo1);
@@ -96,4 +98,64 @@ void menu::wyswietl(sf::RenderWindow & window)
 
 }
 
+void menu::wyzej()
+{
+	if (wybor - 1 >= 0)
+	{
+		switch(wybor)
+		{
+		case 1:
+			guzik0.setSize(sf::Vector2f(300, 90));
+			guzik1.setSize(sf::Vector2f(280, 70));
+			wybor=0;
+			break;
+		case 2:
+			guzik1.setSize(sf::Vector2f(300, 90));
+			guzik2.setSize(sf::Vector2f(280, 70));
+			wybor=1;
+			break;
+		case 3:
+			guzik2.setSize(sf::Vector2f(300, 90));
+			guzik3.setSize(sf::Vector2f(280, 70));
+			wybor=2;
+			break;
+		case 4:
+			guzik3.setSize(sf::Vector2f(300, 90));
+			guzik4.setSize(sf::Vector2f(280, 70));
+			wybor=3;
+			break;
+		}
+	}
 
+}
+
+void menu::nizej()
+{
+	if (wybor + 1 <= 4)
+	{
+		switch (wybor)
+		{
+		case 0:
+			guzik0.setSize(sf::Vector2f(280, 70));
+			guzik1.setSize(sf::Vector2f(300, 90));
+			wybor=1;
+			break;
+		case 1:
+			guzik1.setSize(sf::Vector2f(280, 70));
+			guzik2.setSize(sf::Vector2f(300, 90));
+			wybor=2;
+			break;
+		case 2:
+			guzik2.setSize(sf::Vector2f(280, 70));
+			guzik3.setSize(sf::Vector2f(300, 90));
+			wybor=3;
+			break;
+		case 3:
+			guzik3.setSize(sf::Vector2f(280, 70));
+			guzik4.setSize(sf::Vector2f(300, 90));
+			wybor=4;
+			break;
+		}
+	}
+
+}
