@@ -25,14 +25,14 @@ public:
 		return wyborster;
 	}
 	void wyswietlopcje(sf::RenderWindow& window);
+	sf::Text trudnosc[2];
+	sf::Text rodzajtla[3];
+	sf::Text sterowanie[2];
 
 private:
 	sf::Font font;
-	sf::Text trudnosc[2];
 	sf::Text pytanietr;
 	sf::Text pytanieotlo;
-	sf::Text rodzajtla[3];
-	sf::Text sterowanie[2];
 	sf::Text pytanieoster;
 	sf::Text tytulopcje;
 	sf::Text tlumaczenie;

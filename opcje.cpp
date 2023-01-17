@@ -137,10 +137,10 @@ opcje::opcje(float width, float height)
 	guzikstertlo1.setFillColor(sf::Color(66, 120, 205));
 	guzikstertlo1.setSize(sf::Vector2f(170, 80));
 
-	wyborster = 0;
-	wybortla = 0;
-	wybortr = 0;
-	wiersz = 0;
+	wyborster;
+	wybortla;
+	wybortr;
+	wiersz;
 
 }
 
@@ -187,12 +187,17 @@ void opcje::goraop()
 		case 1:
 			guziktr0.setSize(sf::Vector2f(170, 80));
 			guzikotlo0.setSize(sf::Vector2f(240, 60));
+			guzikotlo1.setSize(sf::Vector2f(240, 60));
+			guzikotlo2.setSize(sf::Vector2f(240, 60));
 			wiersz=0;
+			wybortr = 0;
 			break;
 		case 2:
 			guzikotlo0.setSize(sf::Vector2f(260, 80));
 			guzikster0.setSize(sf::Vector2f(150, 60));
+			guzikster1.setSize(sf::Vector2f(150, 60));
 			wiersz=1;
+			wybortla = 0;
 			break;
 		}
 	}
@@ -208,12 +213,17 @@ void opcje::dolop()
 		case 0:
 			guzikotlo0.setSize(sf::Vector2f(260, 80));
 			guziktr0.setSize(sf::Vector2f(150, 60));
+			guziktr1.setSize(sf::Vector2f(150, 60));
 			wiersz=1;
+			wybortla = 0;
 			break;
 		case 1:
 			guzikotlo0.setSize(sf::Vector2f(240, 60));
+			guzikotlo1.setSize(sf::Vector2f(240, 60));
+			guzikotlo2.setSize(sf::Vector2f(240, 60));
 			guzikster0.setSize(sf::Vector2f(170, 80));
 			wiersz=2;
+			wyborster = 0;
 			break;
 		}
 	}
@@ -222,19 +232,14 @@ void opcje::dolop()
 
 void opcje::prawoop()
 {
-	if (wiersz = 0)
+	switch (wiersz)
 	{
-		switch (wybortr)
-		{
-		case 0:
+	case 0:
 			guziktr0.setSize(sf::Vector2f(150, 60));
 			guziktr1.setSize(sf::Vector2f(170, 80));
 			wybortr = 1;
 			break;
-		}
-	}
-	if (wiersz = 1)
-	{
+	case 1:
 		switch (wybortla)
 		{
 		case 0:
@@ -242,43 +247,31 @@ void opcje::prawoop()
 			guzikotlo1.setSize(sf::Vector2f(260, 80));
 			wybortla = 1;
 			break;
-
 		case 1:
 			guzikotlo1.setSize(sf::Vector2f(240, 60));
 			guzikotlo2.setSize(sf::Vector2f(260, 80));
 			wybortla = 2;
 			break;
 		}
-	}
-	if (wiersz = 2)
-	{
-		switch (wyborster)
-		{
-		case 0:
+		break;
+	case 2:
 			guzikster0.setSize(sf::Vector2f(150, 60));
 			guzikster1.setSize(sf::Vector2f(170, 80));
 			wyborster = 1;
-			break;
-		}
+			break;	
 	}
 }
 
 void opcje::lewoop()
 {
-	if (wiersz = 0)
-	{
-		switch (wybortr)
-		{
-		case 1:
+	switch (wiersz)
+	{	
+	case 0:
 			guziktr1.setSize(sf::Vector2f(150, 60));
 			guziktr0.setSize(sf::Vector2f(170, 80));
 			wybortr = 0;
 			break;
-		}
-		
-	}
-	if (wiersz = 1)
-	{
+	case 1:
 		switch (wybortla)
 		{
 		case 2:
@@ -286,23 +279,17 @@ void opcje::lewoop()
 			guzikotlo1.setSize(sf::Vector2f(260, 80));
 			wybortla = 1;
 			break;
-
 		case 1:
 			guzikotlo1.setSize(sf::Vector2f(240, 60));
 			guzikotlo0.setSize(sf::Vector2f(260, 80));
 			wybortla = 0;
 			break;
 		}
-	}
-	if (wiersz = 2)
-	{
-		switch (wyborster)
-		{
-		case 1:
+		break;
+	case 2:	
 			guzikster1.setSize(sf::Vector2f(150, 60));
 			guzikster0.setSize(sf::Vector2f(170, 80));
 			wyborster = 0;
-			break;
-		}
+			break;	
 	}
 }

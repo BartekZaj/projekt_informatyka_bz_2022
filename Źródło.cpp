@@ -14,7 +14,9 @@
 #include "paletka.h"
 #include "zapytanie.h"
 #include "opcje.h"
-
+#include "pomoc.h"
+#include "gra.h"
+#include "pauza.h"
 
 /*
 typedef struct {                                                              Lista graczy
@@ -375,14 +377,16 @@ int main()
 {
 	setlocale(LC_CTYPE, "Polish");
 a:
-	sf::RenderWindow Gra(sf::VideoMode(1200, 800), "Gra");
 	sf::RenderWindow Menu(sf::VideoMode(1200, 800), "Menu");
 
 	//sf::View view = window.getDefaultView();
 	//sf::Vector2f rozmiarI((window.getSize().x - 100), (window.getSize().y - 50));
 	menu menu(1200, 800);
 	zapytanie zapytanie(600, 400);
+	pauza pauza(600, 400);
 	opcje opcje(1200, 800);
+	pomoc pomoc(1200, 800);
+	gra gra(1200, 800);
 	//interfejs one(sf::Vector2f(800.f, 600.f));
 	//interfejs inter(rozmiarI);
 	sf::Texture tekstura;
@@ -390,8 +394,12 @@ a:
 	sf::Sprite pokeball(tekstura);
 	Pilka pb(40, 10, 800, 800);
 	sf::Clock zegar;
+	int trudnosc = 0;
+	int sterowanie = 0;
+
 	while (Menu.isOpen())
 	{
+		b:
 		sf::Event event;
 		while (Menu.pollEvent(event))
 		{
@@ -421,17 +429,18 @@ a:
 							menu.nizej();
 							break;
 						case sf::Keyboard::Return:
+			
 						switch (menu.klik())
 						{
-							case 0:
-								Menu.close();
-								while (Gra.isOpen())
+							case 0:																													//OKNO GRY
+								Menu.clear();
+								while (Menu.isOpen())
 								{
 									sf::Event eventgra;
-									while (Gra.pollEvent(eventgra))
+									while (Menu.pollEvent(eventgra))
 									{
 										if (eventgra.type == sf::Event::Closed)
-											Gra.close();
+											Menu.close();
 
 										if (eventgra.type == sf::Event::KeyPressed && eventgra.key.code==sf::Keyboard::Escape)
 										{
@@ -462,7 +471,7 @@ a:
 																		{
 																		case 0:
 																			Zapytanie.close();
-																			Gra.close();
+																			Menu.close();
 																			goto a;
 																			break;
 																		case 1:
@@ -484,23 +493,58 @@ a:
 
 										}
 
-										/*
-										Gra.clear();
-										one.draw(window);
-										window.draw(pb.getPilka());
-										window.display();
-										if (zegar.getElapsedTime().asMilliseconds() > 5.0f)
-										{
-											pb.animuj();
-											zegar.restart();
-										}*/
 									}
+
+									if (eventgra.type == sf::Event::KeyPressed && eventgra.key.code == sf::Keyboard::F1)
+									{
+										sf::RenderWindow Pauza(sf::VideoMode(600, 400), "Zapytanie");
+										pauza.wyswietlpauza(Pauza);
+										while (Pauza.isOpen())
+										{
+											sf::Event eventpauza;
+											while (Pauza.pollEvent(eventpauza))
+											{
+												if (eventpauza.type == sf::Event::Closed)
+													Pauza.close();
+
+												switch (eventpauza.type)
+												{
+												case sf::Event::KeyReleased:
+													switch (eventpauza.key.code)
+													{
+													case sf::Keyboard::Escape:
+														Pauza.close();
+														break;
+													}
+												}
+											}
+											Pauza.clear();
+											pauza.wyswietlpauza(Pauza);
+											Pauza.display();
+										}
+									}
+
+									Menu.clear();
+									gra.wyswietlgra(Menu);
+									Menu.display();
+									/*
+									Gra.clear();
+									one.draw(window);
+									window.draw(pb.getPilka());
+									window.display();
+									if (zegar.getElapsedTime().asMilliseconds() > 5.0f)
+									{
+										pb.animuj();
+										zegar.restart();
+									}*/
 								}
 								break;
-							case 1:
+							case 1:																												//WYNIKI
+								Menu.clear();
+
 								break;
 
-							case 2:
+							case 2:																													//OPCJE
 								
 								Menu.clear();
 								while (Menu.isOpen())
@@ -512,8 +556,10 @@ a:
 											Menu.close();
 
 										if (eventopcje.type == sf::Event::KeyPressed && eventopcje.key.code == sf::Keyboard::Escape)
-										{									
-											goto a;
+										{		
+											Menu.clear();
+											Menu.display();
+											goto b;
 										}
 
 										switch (eventopcje.type)
@@ -527,13 +573,72 @@ a:
 											case sf::Keyboard::Down:
 												opcje.dolop();
 												break;
-											
 											case sf::Keyboard::Left:
 												opcje.lewoop();
 												break;
 											case sf::Keyboard::Right:
 												opcje.prawoop();
 												break;
+											case sf::Keyboard::Return:
+												switch (opcje.wiersz)														//    WYBOR OPCJE TRUDNOSC/TLO/STEROWANIE
+												{
+												case 0:
+													opcje.kliktr();
+													switch (opcje.wybortr)
+													{
+														case 0:
+														opcje.trudnosc[0].setFillColor(sf::Color::Green);
+														opcje.trudnosc[1].setFillColor(sf::Color::Red);
+														trudnosc = 0;
+														break;
+
+														case 1:
+														opcje.trudnosc[1].setFillColor(sf::Color::Green);
+														opcje.trudnosc[0].setFillColor(sf::Color::Red);
+														trudnosc = 1;
+														break;
+													}
+													break;
+												case 1:
+													switch (opcje.wybortla)
+													{
+														case 0:
+															opcje.rodzajtla[0].setFillColor(sf::Color::Green);
+															opcje.rodzajtla[1].setFillColor(sf::Color::Red);
+															opcje.rodzajtla[2].setFillColor(sf::Color::Red);  
+															gra.tlo.setFillColor(sf::Color::Cyan);
+															break;
+														case 1:
+															opcje.rodzajtla[0].setFillColor(sf::Color::Red);
+															opcje.rodzajtla[1].setFillColor(sf::Color::Green);
+															opcje.rodzajtla[2].setFillColor(sf::Color::Red);
+															gra.tlo.setFillColor(sf::Color(245, 122, 13));
+															break;
+														case 2:
+															opcje.rodzajtla[0].setFillColor(sf::Color::Red);
+															opcje.rodzajtla[1].setFillColor(sf::Color::Red);
+															opcje.rodzajtla[2].setFillColor(sf::Color::Green);
+															gra.tlo.setFillColor(sf::Color(247,53,188));
+															break;
+													}
+													break;
+												case 2:
+													switch (opcje.wyborster)
+													{
+														case 0:
+															opcje.sterowanie[0].setFillColor(sf::Color::Green);
+															opcje.sterowanie[1].setFillColor(sf::Color::Red);
+															sterowanie = 0;//sterowanie A i D
+															break;
+														case 1:
+															opcje.sterowanie[0].setFillColor(sf::Color::Red);
+															opcje.sterowanie[1].setFillColor(sf::Color::Green);
+															sterowanie = 1;//sterowanie strzalkami
+															break;
+													}
+													break;
+												}
+												
 											}
 										}
 
@@ -543,7 +648,31 @@ a:
 									Menu.display();
 								
 								}
-							case 4:
+							case 3:																													//POMOC
+								Menu.clear();
+								while (Menu.isOpen())
+								{
+									sf::Event eventpomoc;
+									while (Menu.pollEvent(eventpomoc))
+									{
+										if (eventpomoc.type == sf::Event::Closed)
+											Menu.close();
+
+										if (eventpomoc.type == sf::Event::KeyPressed && eventpomoc.key.code == sf::Keyboard::Escape)
+										{
+											Menu.clear();
+											Menu.display();
+											goto b;
+										}
+									}
+									Menu.clear();
+									pomoc.wyswietlpomoc(Menu);
+									Menu.display();
+								}
+								break;
+
+	
+							case 4:																													//WYJSCIE
 								Menu.close();
 								break;
 
