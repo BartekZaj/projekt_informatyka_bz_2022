@@ -11,13 +11,12 @@
 #include <cstdlib>
 #include <locale.h>
 #include "menu.h"
-#include "paletka.h"
 #include "zapytanie.h"
 #include "opcje.h"
 #include "pomoc.h"
 #include "gra.h"
 #include "pauza.h"
-#include "pilka.h"
+
 
 
 
@@ -122,49 +121,53 @@ a:
 										switch (trudnosc)
 										{
 											
-										case 0:
-											if (gra.punktyil == 100 )
-											{
-												sf::RenderWindow Wygrana(sf::VideoMode(600, 400), "Wygrana");
-												gra.wyswietlwygrana(Wygrana);
-												while (Wygrana.isOpen())
+											case 0:
+												if (gra.punktyil == 500 )
 												{
-													sf::Event eventwygrana;
-													while (Wygrana.pollEvent(eventwygrana))
-													{
-														if (eventwygrana.type == sf::Event::Closed)
-															Wygrana.close();
-
-														if (eventwygrana.type == sf::Event::KeyPressed && eventwygrana.key.code == sf::Keyboard::Escape)
-															goto a;
-													}
-													Wygrana.clear();
+													sf::RenderWindow Wygrana(sf::VideoMode(600, 400), "Wygrana");
 													gra.wyswietlwygrana(Wygrana);
-													Wygrana.display();
+													while (Wygrana.isOpen())
+													{
+														sf::Event eventwygrana;
+														while (Wygrana.pollEvent(eventwygrana))
+														{
+															if (eventwygrana.type == sf::Event::Closed)
+																Wygrana.close();
+
+															if (eventwygrana.type == sf::Event::KeyPressed && eventwygrana.key.code == sf::Keyboard::Escape)
+																goto a;
+														}
+
+														Wygrana.clear();
+														gra.wyswietlwygrana(Wygrana);
+														gra.napiszpunktykoniec();
+														Wygrana.display();
+													}
 												}
-											}
-										case 1:
-											if (gra.punktyil == 1000)
-											{
-												sf::RenderWindow Wygrana(sf::VideoMode(600, 400), "Wygrana");
-												gra.wyswietlwygrana(Wygrana);
-												while (Wygrana.isOpen())
+											break;
+											case 1:
+												if (gra.punktyil == 1000)
 												{
-													sf::Event eventwygrana;
-													while (Wygrana.pollEvent(eventwygrana))
-													{
-														if (eventwygrana.type == sf::Event::Closed)
-															Wygrana.close();
-
-														if (eventwygrana.type == sf::Event::KeyPressed && eventwygrana.key.code == sf::Keyboard::Escape)
-															goto a;
-													}
-													Wygrana.clear();
+													sf::RenderWindow Wygrana(sf::VideoMode(600, 400), "Wygrana");
 													gra.wyswietlwygrana(Wygrana);
-													Wygrana.display();
+													while (Wygrana.isOpen())
+													{
+														sf::Event eventwygrana;
+														while (Wygrana.pollEvent(eventwygrana))
+														{
+															if (eventwygrana.type == sf::Event::Closed)
+																Wygrana.close();
+																
+															if (eventwygrana.type == sf::Event::KeyPressed && eventwygrana.key.code == sf::Keyboard::Escape)
+																goto a;
+														}
+														Wygrana.clear();
+														gra.wyswietlwygrana(Wygrana);
+														gra.napiszpunktykoniec();
+														Wygrana.display();
+													}
 												}
-											}
-
+											break;
 										}
 										if (gra.xVelpilki==0)
 										{

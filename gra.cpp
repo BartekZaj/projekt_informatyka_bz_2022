@@ -80,25 +80,24 @@ gra::gra(float width, float height)
 	gratulacje.setFillColor(sf::Color::Magenta);
 	gratulacje.setCharacterSize(70);
 	gratulacje.setString("GRATULACJE");
-	gratulacje.setPosition(90, 80);
+	gratulacje.setPosition(70, 30);
 
 	wygrana0.setFont(font);
 	wygrana0.setFillColor(sf::Color::Green);
-	wygrana0.setCharacterSize(70);
+	wygrana0.setCharacterSize(30);
 	wygrana0.setString("Udalo Ci sie wygrac");
-	wygrana0.setPosition(90, 150);
+	wygrana0.setPosition(80, 150);
 
 	wygrana1.setFont(font);
 	wygrana1.setFillColor(sf::Color::Green);
 	wygrana1.setCharacterSize(30);
-	wygrana1.setString("Twoj wynik to: " + std::to_string(punktyil));
-	wygrana1.setPosition(90, 190);
+	wygrana1.setPosition(80, 210);
 
 	wygrana2.setFont(font);
 	wygrana2.setFillColor(sf::Color::Green);
-	wygrana2.setCharacterSize(30);
+	wygrana2.setCharacterSize(20);
 	wygrana2.setString("w celu wrocenia do menu wcisnij ESC");
-	wygrana2.setPosition(90, 230);
+	wygrana2.setPosition(80, 270);
 }
 
 void gra::wyswietlwygrana(sf::RenderWindow& window)
@@ -118,6 +117,11 @@ void gra::napiszzycia()
 void gra::napiszpunkty()
 {
 	punkty.setString("Punkty : " + std::to_string(punktyil));
+}
+
+void gra::napiszpunktykoniec()
+{
+	wygrana1.setString("Twoj wynik to: " + std::to_string(punktyil));
 }
 
 void gra::wyswietlinterfejs(sf::RenderWindow& window)

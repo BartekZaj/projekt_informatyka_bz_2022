@@ -33,6 +33,7 @@ public:
 	void odbijblok();
 	void napiszzycia();
 	void napiszpunkty();
+	void napiszpunktykoniec();
 	float xVelpilki = 1, yVelpilki = 1.5;
 	sf::RectangleShape tlo;
 	sf::Sprite pilka;
