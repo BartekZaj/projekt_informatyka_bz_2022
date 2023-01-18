@@ -30,7 +30,7 @@ menu::menu(float width, float height)
 	pozycjaM[1].setCharacterSize(50);
 	pozycjaM[1].setPosition(480, 300);
 	pozycjaM[1].setFillColor(sf::Color::Red);
-	pozycjaM[1].setString("Wyniki");
+	pozycjaM[1].setString("Best Wynik");
 	guzik1.setPosition(470, 300);
 	guzik1.setFillColor(sf::Color(0, 255, 255));
 	guzik1.setSize(sf::Vector2f(280, 70));

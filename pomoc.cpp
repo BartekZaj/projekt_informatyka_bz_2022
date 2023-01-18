@@ -72,13 +72,13 @@ pomoc::pomoc(float width, float height)
 	reset0.setCharacterSize(30);
 	reset0.setFillColor(sf::Color::Magenta);
 	reset0.setPosition(150,400);
-	reset0.setString("Reset");
+	reset0.setString("Przywolanie Pilki");
 
 	reset1.setFont(font);
 	reset1.setCharacterSize(20);
 	reset1.setFillColor(sf::Color::Green);
 	reset1.setPosition(150, 440);
-	reset1.setString("W celu zrestartowania gry nalezy nacisnac R");
+	reset1.setString("W celu przywolania pilki za cene 1 zycia nalezy nacisnac R");
 
 	kropka2.setFillColor(sf::Color::Magenta);
 	kropka2.setRadius(10);

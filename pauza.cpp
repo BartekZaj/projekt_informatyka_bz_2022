@@ -13,7 +13,7 @@ pauza::pauza(float width, float height)
 	reset0.setCharacterSize(17);
 	reset0.setFillColor(sf::Color::Green);
 	reset0.setPosition(60, 110);
-	reset0.setString("W celu zrestartowania gry nalezy nacisnac R");
+	reset0.setString("W celu przywolania pilki za cene 1 zycia nalezy nacisnac R");
 	kropka0.setFillColor(sf::Color::Magenta);
 	kropka0.setRadius(10);
 	kropka0.setPosition(30, 110);

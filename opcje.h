@@ -8,10 +8,10 @@ public:
 	void dolop();
 	void prawoop();
 	void lewoop();
-	int wiersz;
-	int wybortr;
-	int wybortla;
-	int wyborster;
+	int wiersz=0;
+	int wybortr=0;
+	int wybortla=0;
+	int wyborster=0;
 	int kliktr()
 	{
 		return wybortr;
