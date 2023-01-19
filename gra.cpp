@@ -34,7 +34,7 @@ gra::gra(float width, float height)
 	paletka.scale(0.2, 0.2);
 
 	teksturabloki.loadFromFile("bloki.png");
-	for (int i = 0; i <=68; i++)
+	for (int i = 0; i <50; i++)
 	{
 		blok[i].setTexture(teksturabloki);
 		blok[i].setTextureRect(sf::IntRect(0, 0, 100, 100));
@@ -67,8 +67,8 @@ gra::gra(float width, float height)
 	gameover1.setFont(font);
 	gameover1.setFillColor(sf::Color::Green);
 	gameover1.setCharacterSize(30);
-	gameover1.setString("nacisnij ESC by wrocic do menu");
-	gameover1.setPosition(90, 230);
+	gameover1.setString("Nacisnij ESC by wrocic do menu");
+	gameover1.setPosition(80, 270);
 
 	pauza.setFont(font);
 	pauza.setFillColor(sf::Color::Green);
@@ -146,6 +146,7 @@ void gra::wyswietlprzegrana(sf::RenderWindow& window)
 {
 	window.draw(gameover0);
 	window.draw(gameover1);
+	window.draw(wygrana1);
 }
 
 void gra::sprawdzKolizjeScianyPilki()
@@ -234,7 +235,7 @@ void gra::odbijpaletke()
 {
 	sf::IntRect pilkachwilowa(pilka.getPosition().x, pilka.getPosition().y, 30, 30);
 	sf::IntRect paletkachwilowa(paletka.getPosition().x, paletka.getPosition().y, 72, 40);
-	if (pilkachwilowa.intersects(paletkachwilowa) && (pilka.getPosition().y < 660))
+	if (pilkachwilowa.intersects(paletkachwilowa))
 	{
 		yVelpilki *= -1;
 	}

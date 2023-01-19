@@ -187,6 +187,7 @@ a:
 												}
 												Gameover.clear();
 												gra.wyswietlprzegrana(Gameover);
+												gra.napiszpunktykoniec();
 												Gameover.display();
 
 											}
